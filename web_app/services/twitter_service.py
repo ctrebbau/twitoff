@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     print("-----------------")
     print("USER")
-    user = api.get_user("elonmusk")
+    user = api.get_user(screen_name="elonmusk")
     print(type(user)) #> <class 'tweepy.models.User'>
     print(user.screen_name)
     print(user.id)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     #    print("--")
     #    print(status.text)
 
-    statuses = api.user_timeline("elonmusk", tweet_mode="extended", count=35, exclude_replies=True, include_rts=False)
+    statuses = api.user_timeline(screen_name="elonmusk", tweet_mode="extended", count=35, exclude_replies=True, include_rts=False)
     for status in statuses:
         print("--")
         print(status.full_text)
