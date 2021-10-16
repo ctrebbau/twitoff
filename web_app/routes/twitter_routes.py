@@ -5,6 +5,7 @@ from flask import Blueprint, jsonify, render_template, request, flash, redirect
 
 from web_app.models import db, User, Tweet, parse_records
 from web_app.services.twitter_service import api as twitter_api
+from web_app.services.spacy_service import nlp
 
 
 twitter_routes = Blueprint("twitter_routes", __name__)
@@ -34,6 +35,7 @@ def get_user(screen_name=None):
         db_tweet = Tweet.query.get(status.id) or Tweet(id=status.id)
         db_tweet.user_id = status.author.id
         db_tweet.full_text = status.full_text
+        db_tweet.embedding = nlp(status.full_text).vector
         db.session.add(db_tweet)
     db.session.commit()
     return "OK"
