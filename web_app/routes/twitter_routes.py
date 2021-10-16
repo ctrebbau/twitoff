@@ -10,11 +10,23 @@ from web_app.services.twitter_service import api as twitter_api
 twitter_routes = Blueprint("twitter_routes", __name__)
 
 @twitter_routes.route("/users/<screen_name>/fetch")
-def fetch_user_data(screen_name):
-    print("FETCHING...", screen_name)
-    user = twitter_api.get_user(screen_name=screen_name)
-    statuses = twitter_api.user_timeline(screen_name=screen_name, tweet_mode="extended", count=35, exclude_replies=True, include_rts=False)
-    # store user info in database
+def get_user(screen_name=None):
+    print(screen_name)
+    api = twitter_api
+    twitter_user = api.get_user(screen_name=screen_name)
+    statuses = api.user_timeline(screen_name=screen_name, tweet_mode="extended", count=35, exclude_replies=True, include_rts=False)
+    print("Statuses count:", len(statuses))
+    # return jsonify({"user": user._json, "num_tweets": len(statuses)})
+
+    # get user from db or create new one
+    db_user = User.query.get(twitter_user.id) or User(id=twitter_user.id)
+    db_user.screen_name = twitter_user.screen_name
+    db_user.name = twitter_user.name
+    db_user.location = twitter_user.location
+    db_user.followers_count = twitter_user.followers_count
+    db.session.add(db_user)
+    db.session.commit()
+    return "OK"
 
     # fetch embedding for each tweet
 
@@ -22,4 +34,4 @@ def fetch_user_data(screen_name):
     # TODO: store tweets in database (w/ embeddings)
 
     # return f"FETCHED {screen_name} OK"
-    return jsonify({"user": user._json, "num_tweets": len(statuses)})
+
