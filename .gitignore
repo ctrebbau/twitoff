@@ -5,3 +5,5 @@ migrations/
 
 # ignore the .env file with our secret creds:
 .env
+
+.DS_Store

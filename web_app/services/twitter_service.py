@@ -12,7 +12,7 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET)
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
-print(type(auth)) #> <class 'tweepy.auth.OAuthHandler'>
+# print(type(auth)) #> <class 'tweepy.auth.OAuthHandler'>
 
 api = tweepy.API(auth)
 print(type(api)) #> <class 'tweepy.api.API'>
