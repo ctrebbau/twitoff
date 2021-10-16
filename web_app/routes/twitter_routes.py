@@ -26,6 +26,16 @@ def get_user(screen_name=None):
     db_user.followers_count = twitter_user.followers_count
     db.session.add(db_user)
     db.session.commit()
+
+    counter = 0
+    for status in statuses:
+        print(status.full_text)
+        print("-----------")
+        db_tweet = Tweet.query.get(status.id) or Tweet(id=status.id)
+        db_tweet.user_id = status.author.id
+        db_tweet.full_text = status.full_text
+        db.session.add(db_tweet)
+    db.session.commit()
     return "OK"
 
     # fetch embedding for each tweet

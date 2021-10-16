@@ -15,7 +15,7 @@ auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 # print(type(auth)) #> <class 'tweepy.auth.OAuthHandler'>
 
 api = tweepy.API(auth)
-print(type(api)) #> <class 'tweepy.api.API'>
+# print(type(api)) #> <class 'tweepy.api.API'>
 
 if __name__ == "__main__":
 
